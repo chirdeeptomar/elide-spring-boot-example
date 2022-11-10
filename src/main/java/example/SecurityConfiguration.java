@@ -25,28 +25,27 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-             .cors()
-                .and()
-             .headers().frameOptions().sameOrigin()  //Needed for Swagger and Graphiql iFrames.
-                .and()
-             .authorizeRequests().antMatchers("/**").permitAll()
-                .and()
-             .csrf().disable();
-    }
+   @Override
+   protected void configure(HttpSecurity httpSecurity) throws Exception {
+      httpSecurity
+            .cors()
+            .and()
+            .headers().frameOptions().sameOrigin() // Needed for Swagger and Graphiql iFrames.
+            .and()
+            .authorizeRequests().antMatchers("/**").permitAll()
+            .and()
+            .csrf().disable();
+   }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource(SecurityConfigProperties properties) {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(properties.getOrigin()));  
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setMaxAge(Duration.ofHours(1));
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(); 
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+   @Bean
+   CorsConfigurationSource corsConfigurationSource(SecurityConfigProperties properties) {
+      CorsConfiguration configuration = new CorsConfiguration();
+      configuration.setAllowedOrigins(Arrays.asList(properties.getOrigin()));
+      configuration.setAllowedMethods(Arrays.asList("*"));
+      configuration.setAllowedHeaders(Arrays.asList("*"));
+      configuration.setMaxAge(Duration.ofHours(1));
+      UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+      source.registerCorsConfiguration("/**", configuration);
+      return source;
+   }
 }
