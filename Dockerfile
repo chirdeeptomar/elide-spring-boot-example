@@ -2,7 +2,7 @@ FROM maven:3.8.2-openjdk-11 as build
 WORKDIR /workspace/app
 COPY pom.xml .
 COPY src src
-RUN mvn install -DskipTests
+RUN mvn install -DskilpTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 FROM adoptopenjdk/openjdk11
 ARG DEPENDENCY=/workspace/app/target/dependency
